@@ -53,7 +53,7 @@ func (l *RpiLight) On() {
 }
 
 func (l *RpiLight) Off() {
-	if l != nil{
+	if l.cancel != nil{
 		l.cancel()
 		l.cancel = nil
 	}
@@ -67,7 +67,7 @@ func (l *RpiLight) SetBrightness(brightness int) {
 }
 
 func (l *RpiLight) SetColors(cs ColorScheme) {
-
+	l.cs = cs
 }
 
 func (l *RpiLight) DimTo(brightness int) {
@@ -85,57 +85,45 @@ func (l *RpiLight) DimTo(brightness int) {
 			time.Sleep(time.Millisecond *100)
 		}
 	}
-	fmt.Println("Exit func?")
 }
 func (l *RpiLight) run(){
 	go func() {
 		cycle := 0
-		sleeps := time.Second / time.Duration(l.Frequency*2)
+		sleeps := time.Nanosecond / time.Duration(l.Frequency)
 		fmt.Println("Sleeps:", sleeps)
+		fmt.Println("Colors", l.cs)
+
+		setPin := func(cycle int, ups float32, pin rpio.Pin, color uint8) {
+			if color > 0 {
+				br := float32(float32(255) / float32(color))
+				if cycle % int(ups * br) == 0 {
+					pin.Write(rpio.High)
+				}else{
+					pin.Write(rpio.Low)
+				}
+			}else{
+				pin.Write(rpio.Low)
+			}
+		}
 		for {
 			select {
 			case <-l.ctx.Done():
 				rpio.Close()
 				return
 			default:
-			// Brightness Ups
 				if l.brightness <= 0 {
 					l.brightness = 100
 				}
-			/*
-				ups := (100 / (l.brightness))
-				if cycle% ups == 0 {
-					l.ledR.Write(rpio.High)
-					l.ledG.Write(rpio.High)
-					l.ledB.Write(rpio.High)
-				}else{
-					l.ledR.Write(rpio.Low)
-					l.ledG.Write(rpio.Low)
-					l.ledB.Write(rpio.Low)
-				}
-			*/
+
+				ups := float32(100 / (l.brightness))
 				// red
-				if cycle*100 % (100 / (l.brightness )) == 0 {
-					l.ledR.Write(rpio.High)
-				}else{
-					l.ledR.Write(rpio.Low)
-				}
-				// green
-				if cycle% (100 / (l.brightness)) == 0 {
-					l.ledG.Write(rpio.High)
-				}else{
-					l.ledG.Write(rpio.Low)
-				}
-				// blue
-				if cycle% (100 / (l.brightness)) == 0 {
-					l.ledB.Write(rpio.High)
-				}else{
-					l.ledB.Write(rpio.Low)
-				}
+				setPin(cycle, ups, l.ledR, l.cs.Red)
+				setPin(cycle, ups, l.ledG, l.cs.Green)
+				setPin(cycle, ups, l.ledB, l.cs.Blue)
 
 
 				cycle++
-				if cycle >= int(l.Frequency*2){
+				if cycle >= int(l.Frequency){
 					cycle = 0
 				}
 				time.Sleep(sleeps)

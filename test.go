@@ -6,8 +6,8 @@ import (
 	"playground/light"
 )
 
-func main()  {
-	mlight, err := light.NewLight(2,3,4,20000)
+func test()  {
+	mlight, err := light.NewLight(2,3,4,40000)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -24,10 +24,10 @@ func main()  {
 	}
 	*/
 	mlight.DimTo(100)
-	time.Sleep(2 * time.Second)
-	mlight.DimTo(1)
-	time.Sleep(2 * time.Second)
-	mlight.DimTo(100)
+	mlight.SetColors(light.ColorScheme{
+		Red:1,
+		Green:1,
+		Blue:1})
 	time.Sleep(2 * time.Second)
 	mlight.Off()
 }
