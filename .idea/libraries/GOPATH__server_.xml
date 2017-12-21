@@ -1,0 +1,44 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;server&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$/../golang_learning" />
+      <root url="file://$PROJECT_DIR$/../smallhome-cloud" />
+      <root url="file://$PROJECT_DIR$/../gobot.io" />
+      <root url="file://$PROJECT_DIR$/../grpchan" />
+      <root url="file://$PROJECT_DIR$/../web-api" />
+      <root url="file://$PROJECT_DIR$/../ellermatt" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../telner-driver" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../homedaemon" />
+      <root url="file://$PROJECT_DIR$/../google.golang.org" />
+      <root url="file://$PROJECT_DIR$/../smaheim" />
+      <root url="file://$PROJECT_DIR$/../SiadCast" />
+      <root url="file://$PROJECT_DIR$/../lang-plugin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$/../golang_learning" />
+      <root url="file://$PROJECT_DIR$/../smallhome-cloud" />
+      <root url="file://$PROJECT_DIR$/../gobot.io" />
+      <root url="file://$PROJECT_DIR$/../grpchan" />
+      <root url="file://$PROJECT_DIR$/../web-api" />
+      <root url="file://$PROJECT_DIR$/../ellermatt" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../telner-driver" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../homedaemon" />
+      <root url="file://$PROJECT_DIR$/../google.golang.org" />
+      <root url="file://$PROJECT_DIR$/../smaheim" />
+      <root url="file://$PROJECT_DIR$/../SiadCast" />
+      <root url="file://$PROJECT_DIR$/../lang-plugin" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$/light" />
+      <root url="file://$PROJECT_DIR$/server" />
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>
