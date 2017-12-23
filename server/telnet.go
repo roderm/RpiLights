@@ -1,21 +1,20 @@
 package server
 
 import (
-	"playground/light"
-	"net"
-	"log"
 	"fmt"
-	"strings"
+	"log"
+	"net"
+	"playground/light"
 	"strconv"
+	"strings"
 )
 
-type TelnetSever struct{
-	Light light.RpiLight
+type TelnetSever struct {
+	Light *light.RpiLight
 }
 
-
-func (t *TelnetSever) Serve(port int) error{
-	host:= fmt.Sprintf("%s:%d", getOutboundIP().String(), port)
+func (t *TelnetSever) Serve(port int) error {
+	host := fmt.Sprintf("%s:%d", getOutboundIP().String(), port)
 	fmt.Println("Start on " + host)
 
 	l, err := net.Listen("tcp", host)
@@ -33,7 +32,7 @@ func (t *TelnetSever) Serve(port int) error{
 		}
 		// Handle connections in a new goroutine.
 		go t.handleRequest(conn)
-	}	
+	}
 	return nil
 }
 
@@ -49,46 +48,46 @@ func (t *TelnetSever) handleRequest(conn net.Conn) {
 
 	cStrs := string(buf[:])
 	command := strings.Split(cStrs, " ")
-	switch command[0]{
-		case "on":
-			go t.Light.On()
-		case "off":
-			go t.Light.Off()
-		case "color":
-			if len(command) >= 4 {
-				r, err := strconv.Atoi(command[1])
-				g, err := strconv.Atoi(command[2])
-				b, err := strconv.Atoi(command[3])
-				if err != nil {
-					conn.Write([]byte("Invalid colors" + err.Error()))
-					return
-				}
-				go t.Light.SetColors(light.ColorScheme{
-					Red:uint8(r),
-					Green:uint8(g),
-					Blue:uint8(b)})
-			}else{
-				conn.Write([]byte("3 coulours are used"))
+	switch command[0] {
+	case "on":
+		go t.Light.On()
+	case "off":
+		go t.Light.Off()
+	case "color":
+		if len(command) >= 4 {
+			r, err := strconv.Atoi(command[1])
+			g, err := strconv.Atoi(command[2])
+			b, err := strconv.Atoi(command[3])
+			if err != nil {
+				conn.Write([]byte("Invalid colors" + err.Error()))
+				return
 			}
-		case "bright":
-			if len(command) >= 2 {
-				b, err := strconv.Atoi(command[1])
-				if err != nil {
-					conn.Write([]byte("Invalid bright" + err.Error()))
-					return
-				}
-				if b > 100 {
-					b = 100
-				}
-				if b < 100 {
-					b = 1
-				}
-				go t.Light.DimTo(b)
-			}else{
-				conn.Write([]byte("Brightness between 1 and 100 used"))
+			go t.Light.SetColors(light.ColorScheme{
+				Red:   uint8(r),
+				Green: uint8(g),
+				Blue:  uint8(b)})
+		} else {
+			conn.Write([]byte("3 coulours are used"))
+		}
+	case "bright":
+		if len(command) >= 2 {
+			b, err := strconv.Atoi(command[1])
+			if err != nil {
+				conn.Write([]byte("Invalid bright" + err.Error()))
+				return
 			}
-		default:
-			conn.Write([]byte("No command found for: " + command[0]))
+			if b > 100 {
+				b = 100
+			}
+			if b < 100 {
+				b = 1
+			}
+			go t.Light.DimTo(b)
+		} else {
+			conn.Write([]byte("Brightness between 1 and 100 used"))
+		}
+	default:
+		conn.Write([]byte("No command found for: " + command[0]))
 	}
 
 	// Close the connection when you're done with it.

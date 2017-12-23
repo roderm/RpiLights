@@ -1,22 +1,19 @@
 package main
 
 import (
-	"playground/light"
-	"log"
-	"playground/server"
 	"fmt"
+	"playground/light"
+	"playground/server"
 )
 
 func main() {
-	mlight, err := light.NewLight(2,3,4,40000)
-	if err != nil {
-		log.Panic(err)
-	}
+	light.Setup(2, 3, 4, 40000)
+	mlight := light.GetLight()
 	fmt.Println("Light created")
 	mserver := server.TelnetSever{
-		Light:mlight}
+		Light: mlight}
 	fmt.Println("Start serving")
-	err = mserver.Serve(6600)
+	err := mserver.Serve(6600)
 	if err != nil {
 		panic(err)
 	}
