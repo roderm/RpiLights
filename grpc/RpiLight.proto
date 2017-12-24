@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+service RpiLight {
+    rpc On(Empty) returns(RPCError){}
+    rpc Off(Empty) returns(RPCError){}
+    rpc GetInfo(Empty) returns(State) {}
+    rpc SetColor(State) returns (RPCError) {}
+    rpc SetBrightness(Brightness) returns(RPCError) {}
+    rpc SubscribeStateChange(Empty) returns (stream State) {}
+}
+
+enum LightState {
+    OFF = 0;
+    ON = 1;
+    UNKNOWN = 2;
+}
+
+message Empty {}
+
+message State {
+    LightState State = 1;
+    Brightness Bright = 2;
+    ColorScheme Colors = 3;
+}
+message Brightness {
+    int32 Value = 1;
+}
+message ColorScheme {
+    int32 Red = 1;
+    int32 Blue = 2;
+    int32 Green = 3;
+}
+
+message RPCError {
+    int32 Num = 1;
+    string Message = 2;
+}
