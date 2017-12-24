@@ -5,15 +5,12 @@ import (
 	"fmt"
 	"github.com/stianeikeland/go-rpio"
 	"time"
+
+	pb "playground/grpc"
 )
 
 var instance RpiLight
 
-type ColorScheme struct {
-	Red   uint8
-	Green uint8
-	Blue  uint8
-}
 type RpiLight struct {
 	Frequency  int64
 	ctx        context.Context
@@ -22,7 +19,7 @@ type RpiLight struct {
 	ledR       rpio.Pin
 	ledG       rpio.Pin
 	ledB       rpio.Pin
-	cs         ColorScheme
+	cs         pb.ColorScheme
 }
 
 func Setup(pinR int, pinG int, pinB int, f int64) {
@@ -42,13 +39,23 @@ func Setup(pinR int, pinG int, pinB int, f int64) {
 		ledG:      ledG,
 		ledB:      ledB,
 		Frequency: f,
-		cs: ColorScheme{
+		cs: pb.ColorScheme{
 			Red:   255,
 			Green: 255,
 			Blue:  255}}
 }
 func GetLight() *RpiLight {
 	return &instance
+}
+
+func (l *RpiLight) GetState() pb.LightState {
+	if l.cancel == nil {
+		return pb.LightState_OFF
+	}
+	if l.cancel != nil {
+		return pb.LightState_ON
+	}
+	return pb.LightState_UNKNOWN
 }
 func (l *RpiLight) On() {
 	if l.cancel == nil {
@@ -71,7 +78,7 @@ func (l *RpiLight) SetBrightness(brightness int) {
 	l.brightness = brightness
 }
 
-func (l *RpiLight) SetColors(cs ColorScheme) {
+func (l *RpiLight) SetColors(cs pb.ColorScheme) {
 	l.cs = cs
 }
 
@@ -98,7 +105,7 @@ func (l *RpiLight) run() {
 		fmt.Println("Sleeps:", sleeps)
 		fmt.Println("Colors", l.cs)
 
-		setPin := func(cycle int, ups float32, pin rpio.Pin, color uint8) {
+		setPin := func(cycle int, ups float32, pin rpio.Pin, color int32) {
 			if color > 0 {
 				br := float32(float32(255) / float32(color))
 				if cycle%int(ups*br) == 0 {

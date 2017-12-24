@@ -1,39 +1,50 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
 	"playground/light"
 	"strconv"
 	"strings"
+
+	pb "playground/grpc"
 )
 
 type TelnetSever struct {
 	Light *light.RpiLight
 }
 
-func (t *TelnetSever) Serve(port int) error {
-	host := fmt.Sprintf("%s:%d", getOutboundIP().String(), port)
-	fmt.Println("Start on " + host)
+func (t *TelnetSever) Serve(port int, ctx context.Context) (func(), error) {
+	cctx, cancel := context.WithCancel(ctx)
+	go func() {
+		host := fmt.Sprintf("%s:%d", getOutboundIP().String(), port)
+		fmt.Println("Start on " + host)
 
-	l, err := net.Listen("tcp", host)
-	if err != nil {
-		return err
-	}
-	defer l.Close()
-	fmt.Println("Listening on " + host)
-	for {
-		// Listen for an incoming connection.
-		conn, err := l.Accept()
+		l, err := net.Listen("tcp", host)
 		if err != nil {
-			fmt.Println("Error accepting: ", err.Error())
-			break
+			panic(err)
+			return
 		}
-		// Handle connections in a new goroutine.
-		go t.handleRequest(conn)
-	}
-	return nil
+		defer l.Close()
+		fmt.Println("Listening on " + host)
+		go func() {
+			<-cctx.Done()
+			return
+		}()
+		for {
+			// Listen for an incoming connection.
+			conn, err := l.Accept()
+			if err != nil {
+				fmt.Println("Error accepting: ", err.Error())
+				break
+			}
+			// Handle connections in a new goroutine.
+			go t.handleRequest(conn)
+		}
+	}()
+	return cancel, nil
 }
 
 func (t *TelnetSever) handleRequest(conn net.Conn) {
@@ -62,10 +73,10 @@ func (t *TelnetSever) handleRequest(conn net.Conn) {
 				conn.Write([]byte("Invalid colors" + err.Error()))
 				return
 			}
-			go t.Light.SetColors(light.ColorScheme{
-				Red:   uint8(r),
-				Green: uint8(g),
-				Blue:  uint8(b)})
+			go t.Light.SetColors(pb.ColorScheme{
+				Red:   int32(r),
+				Green: int32(g),
+				Blue:  int32(b)})
 		} else {
 			conn.Write([]byte("3 coulours are used"))
 		}
