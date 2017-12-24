@@ -60,6 +60,9 @@ func (t *TelnetSever) handleRequest(conn net.Conn) {
 	cStrs := string(buf[:])
 	command := strings.Split(cStrs, " ")
 	switch command[0] {
+	case "state":
+		state := t.Light.GetState()
+		conn.Write([]byte(fmt.Sprintf("State: %s \n", state.String())))
 	case "on":
 		go t.Light.On()
 	case "off":
@@ -95,10 +98,10 @@ func (t *TelnetSever) handleRequest(conn net.Conn) {
 			}
 			go t.Light.DimTo(b)
 		} else {
-			conn.Write([]byte("Brightness between 1 and 100 used"))
+			conn.Write([]byte("Brightness between 1 and 100 used \n"))
 		}
 	default:
-		conn.Write([]byte("No command found for: " + command[0]))
+		conn.Write([]byte("No command found for: " + command[0] + "\n"))
 	}
 
 	// Close the connection when you're done with it.

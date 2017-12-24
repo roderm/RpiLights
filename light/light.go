@@ -12,14 +12,15 @@ import (
 var instance RpiLight
 
 type RpiLight struct {
-	Frequency  int64
-	ctx        context.Context
-	cancel     func()
-	brightness int
-	ledR       rpio.Pin
-	ledG       rpio.Pin
-	ledB       rpio.Pin
-	cs         pb.ColorScheme
+	Frequency   int64
+	ctx         context.Context
+	cancel      func()
+	brightness  int
+	ledR        rpio.Pin
+	ledG        rpio.Pin
+	ledB        rpio.Pin
+	cs          pb.ColorScheme
+	StateChange chan pb.State
 }
 
 func Setup(pinR int, pinG int, pinB int, f int64) {
@@ -62,13 +63,17 @@ func (l *RpiLight) On() {
 		l.ctx, l.cancel = context.WithCancel(context.Background())
 		go l.run()
 	}
+	l.triggerStateChange()
 }
 
 func (l *RpiLight) Off() {
 	if l.cancel != nil {
 		l.cancel()
 		l.cancel = nil
+		// To be sure loop has finished
+		time.Sleep(time.Millisecond * 50)
 	}
+	l.triggerStateChange()
 	l.ledR.Write(rpio.Low)
 	l.ledG.Write(rpio.Low)
 	l.ledB.Write(rpio.Low)
@@ -76,12 +81,18 @@ func (l *RpiLight) Off() {
 
 func (l *RpiLight) SetBrightness(brightness int) {
 	l.brightness = brightness
+	l.triggerStateChange()
 }
-
+func (l *RpiLight) GetBrightness() int {
+	return l.brightness
+}
 func (l *RpiLight) SetColors(cs pb.ColorScheme) {
 	l.cs = cs
+	l.triggerStateChange()
 }
-
+func (l *RpiLight) GetColors() pb.ColorScheme {
+	return l.cs
+}
 func (l *RpiLight) DimTo(brightness int) {
 	for {
 		if brightness == l.brightness {
@@ -140,4 +151,13 @@ func (l *RpiLight) run() {
 			}
 		}
 	}()
+}
+
+func (l *RpiLight) triggerStateChange() {
+	state := pb.State{
+		State:  l.GetState(),
+		Colors: &l.cs,
+		Bright: &pb.Brightness{
+			Value: int32(l.GetBrightness())}}
+	l.StateChange <- state
 }
