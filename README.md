@@ -20,5 +20,5 @@
     - ```echo -n "bright 40 " | nc [ip] 6600```
     
 ## Known issues
-- [ ] two on or off in a row kills programm
+- [x] two on or off in a row kills programm
 - [ ] telnet commands won't work without space at the end
