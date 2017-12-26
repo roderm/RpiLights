@@ -1,0 +1,48 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:		rpilight
+# Required-Start:    $all
+# Default-Start:	2 3 4 5
+# Default-Stop:
+# Short-Description:	Raspberry PI pin lights
+### END INIT INFO
+
+EXEC_PATH=/etc/rpilight/rpilight
+CONF_PATH=/etc/rpilight/config.toml
+
+PIDFILE=/tmp/rpilight.pid
+
+start() {
+    PID=`$EXEC_PATH $CONF_PATH > /dev/null 2>&1 & echo $!`
+    if [ -z $PID ]; then
+                printf "%s\n" "Fail"
+    else
+        echo $PID > $PIDFILE
+        printf "%s\n" "Ok"
+    fi
+
+}
+stop() {
+    PID=`cat $PIDFILE`
+    if [ -f $PIDFILE ]; then
+        kill -HUP $PID
+        printf "%s\n" "Ok"
+        rm -f $PIDFILE
+    else
+        printf "%s\n" "pidfile not found"
+    fi
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    start
+    stop
+    ;;
+esac

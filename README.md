@@ -3,6 +3,7 @@
 ## gRPC-Interface
 
 ## Setup
+``systemctl enable rpilight.service``
 - Raspberry:
     - Red-LED: GPIO02
     - Green-LED: GPIO03
@@ -22,3 +23,4 @@
 ## Known issues
 - [x] two on or off in a row kills programm
 - [ ] telnet commands won't work without space at the end
+- [ ] Awfull hack to get IP: Loop till ip hasbeen received instead of wait for system is online

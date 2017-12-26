@@ -1,0 +1,12 @@
+[Unit]
+Description=RpiLight
+DefaultDependencies=false
+Requires=systemd-networkd-wait-online.service
+
+[Service]
+Type=service
+ExecStart=/etc/rpilight/rpilight /etc/rpilight/config.toml &
+Restart=yes
+
+[Install]
+WantedBy=sysinit.target

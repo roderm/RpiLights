@@ -6,7 +6,7 @@ import (
 	"github.com/stianeikeland/go-rpio"
 	"time"
 
-	pb "playground/grpc"
+	pb "rpilight/grpc"
 )
 
 var instance RpiLight

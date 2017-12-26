@@ -3,13 +3,13 @@ package server
 import (
 	"context"
 	"fmt"
-	"log"
 	"net"
-	"playground/light"
+	"rpilight/light"
 	"strconv"
 	"strings"
 
-	pb "playground/grpc"
+	pb "rpilight/grpc"
+	"time"
 )
 
 type TelnetSever struct {
@@ -108,13 +108,20 @@ func (t *TelnetSever) handleRequest(conn net.Conn) {
 	conn.Close()
 }
 func getOutboundIP() net.IP {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		log.Fatal(err)
+	i := 0
+	for {
+		conn, err := net.Dial("udp", "8.8.8.8:80")
+		if err != nil {
+			fmt.Printf("Attempt: %d - msg: %s \n", i, err)
+			time.Sleep(time.Millisecond * time.Duration(500*i))
+			i++
+		} else {
+
+			defer conn.Close()
+			localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+			return localAddr.IP
+		}
+
 	}
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
-	return localAddr.IP
 }

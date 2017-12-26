@@ -5,13 +5,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 	"github.com/BurntSushi/toml"
 	"log"
 	"os"
 	"os/signal"
-	"playground/light"
-	"playground/server"
+	"rpilight/light"
+	"rpilight/server"
 	"syscall"
+	pb "rpilight/grpc"
 )
 
 type Config struct {
@@ -23,8 +25,7 @@ type Config struct {
 	GrpcPort   int
 }
 
-func ReadConfig() Config {
-	var configfile = "./config.toml"
+func ReadConfig(configfile string ) Config {
 	_, err := os.Stat(configfile)
 	if err != nil {
 		log.Fatal("Config file is missing: ", configfile)
@@ -38,26 +39,63 @@ func ReadConfig() Config {
 	return config
 }
 func main() {
-	conf := ReadConfig()
+	var conffile string
+	if  len(os.Args) < 2 {
+		conffile = "./config.toml"
+	}else {
+		conffile = os.Args[1]
+	}
+	conf := ReadConfig(conffile)
 	light.Setup(conf.GPIORed, conf.GPIOGreen, conf.GPIOBlue, int64(conf.Frequency))
 	mlight := light.GetLight()
 	fmt.Println("Light created")
 	mserver := server.TelnetSever{
 		Light: mlight}
+
+	mlight.On();
+	mlight.SetColors(pb.ColorScheme{
+		Red:0,
+		Green:255,
+		Blue:0});
+
 	fmt.Println("Start serving (Telnet)")
 	cancel, err := mserver.Serve(conf.TelnetPort, context.Background())
 	if err != nil {
 		panic(err)
 	}
 
+	time.Sleep(time.Second);
+
+	mlight.SetColors(pb.ColorScheme{
+		Red:255,
+		Green:0,
+		Blue:0});
+
 	fmt.Println("Start serving (GRPC)")
 	s := server.GetService()
 	s.SetLight(mlight)
 	server.StartServer(conf.GrpcPort)
 
+	time.Sleep(time.Second);
+
+	mlight.SetColors(pb.ColorScheme{
+		Red:0,
+		Green:0,
+		Blue:255});
 	/*fmt.Println("Starting bonjour")
 	server.AdvertiseBonjour([]string{"Simple GrpcLight"}, conf.GrpcPort)
 	*/
+
+	// Show that programm has startet:
+
+	time.Sleep(time.Second);
+	mlight.SetColors(pb.ColorScheme{
+		Red:255,
+		Green:255,
+		Blue:255});
+	time.Sleep(time.Second)
+	mlight.Off();
+
 	c := make(chan os.Signal, 2)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	func() {

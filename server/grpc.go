@@ -7,8 +7,8 @@ import (
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
-	pb "playground/grpc"
-	"playground/light"
+	pb "rpilight/grpc"
+	"rpilight/light"
 )
 
 var instance Service

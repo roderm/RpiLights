@@ -2,9 +2,11 @@
   <library name="GOPATH &lt;light&gt;">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$" />
       <root url="file://$PROJECT_DIR$/../golang_learning" />
       <root url="file://$PROJECT_DIR$/../smallhome-cloud" />
       <root url="file://$PROJECT_DIR$/../gobot.io" />
+      <root url="file://$PROJECT_DIR$/../playground" />
       <root url="file://$PROJECT_DIR$/../grpchan" />
       <root url="file://$PROJECT_DIR$/../web-api" />
       <root url="file://$PROJECT_DIR$/../ellermatt" />
@@ -20,9 +22,11 @@
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$" />
       <root url="file://$PROJECT_DIR$/../golang_learning" />
       <root url="file://$PROJECT_DIR$/../smallhome-cloud" />
       <root url="file://$PROJECT_DIR$/../gobot.io" />
+      <root url="file://$PROJECT_DIR$/../playground" />
       <root url="file://$PROJECT_DIR$/../grpchan" />
       <root url="file://$PROJECT_DIR$/../web-api" />
       <root url="file://$PROJECT_DIR$/../ellermatt" />
@@ -36,9 +40,9 @@
       <root url="file://$PROJECT_DIR$/../lang-plugin" />
     </SOURCES>
     <excluded>
-      <root url="file://$PROJECT_DIR$/light" />
       <root url="file://$PROJECT_DIR$/server" />
-      <root url="file://$PROJECT_DIR$" />
+      <root url="file://$PROJECT_DIR$/raspi-dir" />
+      <root url="file://$PROJECT_DIR$/light" />
     </excluded>
   </library>
 </component>
