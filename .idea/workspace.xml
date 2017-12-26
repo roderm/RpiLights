@@ -2,22 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d04f125b-8bd7-4f7b-a207-e3267c9e0b52" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/raspi-dir/raspi-dir.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config.toml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/playground" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/raspi-dir/etc/init.d/raspilight" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test.go" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/playground.iml" afterPath="$PROJECT_DIR$/rpilight.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/rootfiles.tar.gz" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/target/etc/rpilight/rpilight" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/install.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/installer.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/target/etc/init.d/rpilight" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/target/etc/rpilight/config.toml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/target/lib/systemd/system/rpilight.service" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/installer/target/raspi-dir.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__light_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__light_.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__server_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__server_.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sh" afterPath="$PROJECT_DIR$/build.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/light/light.go" afterPath="$PROJECT_DIR$/light/light.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/grpc.go" afterPath="$PROJECT_DIR$/server/grpc.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/telnet.go" afterPath="$PROJECT_DIR$/server/telnet.go" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +38,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="425">
-                <caret line="25" column="95" lean-forward="false" selection-start-line="25" selection-start-column="95" selection-end-line="25" selection-end-column="95" />
+              <first_editor relative-caret-position="473">
+                <caret line="38" column="24" lean-forward="false" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -69,6 +67,26 @@
               <folding>
                 <element signature="e#16#120#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/installer/install.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,12 +140,13 @@
         <option value="$PROJECT_DIR$/easy-grpc-test/test_client.go" />
         <option value="$PROJECT_DIR$/light/light.go" />
         <option value="$PROJECT_DIR$/server/grpc.go" />
-        <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/raspi-dir/etc/init.d/raspilight" />
         <option value="$PROJECT_DIR$/raspi-dir/etc/init.d/rpilight" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/server/telnet.go" />
         <option value="$PROJECT_DIR$/raspi-dir/lib/systemd/system/rpilight.service" />
+        <option value="$PROJECT_DIR$/installer/install.sh" />
+        <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -182,7 +201,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="light" />
+              <option name="myItemId" value="installer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -195,10 +214,10 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/raspi-dir" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/installer" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -663,12 +682,12 @@
       <workItem from="1514119203939" duration="8531000" />
       <workItem from="1514206979766" duration="846000" />
       <workItem from="1514276408091" duration="12011000" />
-      <workItem from="1514293286295" duration="10235000" />
+      <workItem from="1514293286295" duration="12313000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71543000" />
+    <option name="totallyTimeSpent" value="73621000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="960" height="1061" extended-state="0" />
@@ -719,14 +738,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/grpc.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/bonjour.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1079,14 +1090,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="77" lean-forward="false" selection-start-line="2" selection-start-column="69" selection-end-line="2" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/raspi-dir/etc/init.d/rpilight">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1123,11 +1126,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/installer/install.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="425">
-            <caret line="25" column="95" lean-forward="false" selection-start-line="25" selection-start-column="95" selection-end-line="25" selection-end-column="95" />
+          <first_editor relative-caret-position="473">
+            <caret line="38" column="24" lean-forward="false" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
             <folding />
           </first_editor>
           <second_editor />
@@ -1186,7 +1205,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>raspi-dir</last-edited>
+          <last-edited>installer</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

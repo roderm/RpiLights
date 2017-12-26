@@ -42,6 +42,7 @@
     <excluded>
       <root url="file://$PROJECT_DIR$/server" />
       <root url="file://$PROJECT_DIR$/raspi-dir" />
+      <root url="file://$PROJECT_DIR$/installer" />
       <root url="file://$PROJECT_DIR$/light" />
     </excluded>
   </library>

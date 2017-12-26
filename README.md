@@ -3,12 +3,12 @@
 ## gRPC-Interface
 
 ## Setup
-``systemctl enable rpilight.service``
-- Raspberry:
-    - Red-LED: GPIO02
-    - Green-LED: GPIO03
-    - Blue-LED: GPIO04
-- Telnet-Port: 6600
+- connect Leds to you PI
+- copy the content from ``raspi-dir`` to your raspberry
+- enable service on pi with:
+    - ``systemctl enable rpilight.service``
+- Configure your LED-GPIO pins in ``/etc/rpilight/config.toml``
+   - Defaults are GPIO02, GPIO03, GPIO04
 
 ## Telnet commands (Linux Terminal)
 - Turn light on:
@@ -24,3 +24,16 @@
 - [x] two on or off in a row kills programm
 - [ ] telnet commands won't work without space at the end
 - [ ] Awfull hack to get IP: Loop till ip hasbeen received instead of wait for system is online
+
+## Roadmap
+- [x] Switch LEDs per Telnet on off
+- [x] Set Color and Dimm lights per telnet
+- [x] gRPC support with StateChange stream
+- [ ] add bonjour to find device in network
+- [ ] add an alarm function to turn on/off on given time
+
+- [ ] bring to Cloud-Services:
+    - [ ] Google Home
+    - [ ] Amazone Echo
+    - [ ] IFTTT
+    - [ ] Home-Assistant
