@@ -12,15 +12,15 @@ import (
 var instance RpiLight
 
 type RpiLight struct {
-	Frequency   int64
-	ctx         context.Context
-	cancel      func()
-	brightness  int
-	ledR        rpio.Pin
-	ledG        rpio.Pin
-	ledB        rpio.Pin
-	cs          pb.ColorScheme
-	StateChange chan pb.State
+	Frequency      int64
+	ctx            context.Context
+	cancel         func()
+	brightness     int
+	ledR           rpio.Pin
+	ledG           rpio.Pin
+	ledB           rpio.Pin
+	cs             pb.ColorScheme
+	NotifyChannels []chan pb.State
 }
 
 func Setup(pinR int, pinG int, pinB int, f int64) {
@@ -73,10 +73,10 @@ func (l *RpiLight) Off() {
 		// To be sure loop has finished
 		time.Sleep(time.Millisecond * 50)
 	}
-	l.triggerStateChange()
 	l.ledR.Write(rpio.Low)
 	l.ledG.Write(rpio.Low)
 	l.ledB.Write(rpio.Low)
+	l.triggerStateChange()
 }
 
 func (l *RpiLight) SetBrightness(brightness int) {
@@ -152,12 +152,19 @@ func (l *RpiLight) run() {
 		}
 	}()
 }
-
+func (l *RpiLight) RegisterChannel(c chan pb.State) {
+	l.NotifyChannels = append(l.NotifyChannels, c)
+}
 func (l *RpiLight) triggerStateChange() {
 	state := pb.State{
 		State:  l.GetState(),
 		Colors: &l.cs,
 		Bright: &pb.Brightness{
 			Value: int32(l.GetBrightness())}}
-	l.StateChange <- state
+
+	go func() {
+		for _, c := range l.NotifyChannels {
+			c <- state
+		}
+	}()
 }

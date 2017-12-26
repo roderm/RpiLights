@@ -47,12 +47,12 @@ func (s *Service) SetLight(light *light.RpiLight) {
 
 func (s *Service) On(ctx context.Context, n *pb.Empty) (*pb.Empty, error) {
 	s.light.On()
-	return nil, nil
+	return &pb.Empty{}, nil
 }
 
 func (s *Service) Off(ctx context.Context, n *pb.Empty) (*pb.Empty, error) {
 	s.light.Off()
-	return nil, nil
+	return &pb.Empty{}, nil
 }
 
 func (s *Service) GetInfo(ctx context.Context, n *pb.Empty) (*pb.State, error) {
@@ -79,5 +79,19 @@ func (s *Service) SetBrightness(ctx context.Context, n *pb.Brightness) (*pb.Empt
 	return &pb.Empty{}, nil
 }
 func (s *Service) SubscribeStateChange(n *pb.Empty, stream pb.RpiLight_SubscribeStateChangeServer) error {
+	colors := s.light.GetColors()
+	state := pb.State{
+		State:  s.light.GetState(),
+		Colors: &colors,
+		Bright: &pb.Brightness{
+			Value: int32(s.light.GetBrightness())}}
+	stream.Send(&state)
+	c := make(chan pb.State)
+	s.light.RegisterChannel(c)
+	defer close(c)
+	for {
+		state := <-c
+		stream.Send(&state)
+	}
 	return nil
 }
