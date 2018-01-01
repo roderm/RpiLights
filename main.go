@@ -14,7 +14,6 @@ import (
 	"rpilight/hwlight"
 	"rpilight/server"
 	"syscall"
-	"os/user"
 	pb "rpilight/grpc"
 )
 
@@ -42,8 +41,6 @@ func ReadConfig(configfile string ) Config {
 	return config
 }
 func main() {
-	hwlight.MyPwmTest()
-	fmt.Println("Test finished")
 	var conffile string
 	if  len(os.Args) < 2 {
 		conffile = "./config.toml"

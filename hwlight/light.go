@@ -3,8 +3,7 @@ package hwlight
 import (
 	"context"
 	"fmt"
-	"log"
-	"rpilight/bcm2835"
+	"github.com/roderm/bcm2835"
 	pb "rpilight/grpc"
 	"rpilight/light"
 )
