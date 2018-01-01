@@ -1,6 +1,7 @@
 TelnetPort=4600
 Frequency=40000
-GPIORed=2
-GPIOGreen=3
-GPIOBlue=4
+GPIORed=18
+GPIOGreen=13
+GPIOBlue=19
 GrpcPort=6600
+PWMMode="hardware"

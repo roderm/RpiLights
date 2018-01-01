@@ -4,3 +4,4 @@ GPIORed=2
 GPIOGreen=3
 GPIOBlue=4
 GrpcPort=6600
+PWMMode=hardware

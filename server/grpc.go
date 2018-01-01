@@ -14,7 +14,7 @@ import (
 var instance Service
 
 type Service struct {
-	light *light.RpiLight
+	light light.ILight
 }
 
 func StartServer(port int) (*Service, error) {
@@ -41,7 +41,7 @@ func GetService() *Service {
 	return &instance
 }
 
-func (s *Service) SetLight(light *light.RpiLight) {
+func (s *Service) SetLight(light light.ILight) {
 	s.light = light
 }
 

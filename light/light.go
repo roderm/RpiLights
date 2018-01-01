@@ -45,11 +45,11 @@ func Setup(pinR int, pinG int, pinB int, f int64) {
 			Green: 255,
 			Blue:  255}}
 }
-func GetLight() *RpiLight {
-	return &instance
+func GetLight() ILight {
+	return instance
 }
 
-func (l *RpiLight) GetState() pb.LightState {
+func (l RpiLight) GetState() pb.LightState {
 	if l.cancel == nil {
 		return pb.LightState_OFF
 	}
@@ -58,7 +58,7 @@ func (l *RpiLight) GetState() pb.LightState {
 	}
 	return pb.LightState_UNKNOWN
 }
-func (l *RpiLight) On() {
+func (l RpiLight) On() {
 	if l.cancel == nil {
 		l.ctx, l.cancel = context.WithCancel(context.Background())
 		go l.run()
@@ -66,7 +66,7 @@ func (l *RpiLight) On() {
 	l.triggerStateChange()
 }
 
-func (l *RpiLight) Off() {
+func (l RpiLight) Off() {
 	if l.cancel != nil {
 		l.cancel()
 		l.cancel = nil
@@ -79,21 +79,22 @@ func (l *RpiLight) Off() {
 	l.triggerStateChange()
 }
 
-func (l *RpiLight) SetBrightness(brightness int) {
+func (l RpiLight) SetBrightness(brightness int) {
 	l.brightness = brightness
 	l.triggerStateChange()
 }
-func (l *RpiLight) GetBrightness() int {
+func (l RpiLight) GetBrightness() int {
 	return l.brightness
 }
-func (l *RpiLight) SetColors(cs pb.ColorScheme) {
+func (l RpiLight) SetColors(cs pb.ColorScheme) {
 	l.cs = cs
 	l.triggerStateChange()
 }
-func (l *RpiLight) GetColors() pb.ColorScheme {
+func (l RpiLight) GetColors() pb.ColorScheme {
 	return l.cs
 }
-func (l *RpiLight) DimTo(brightness int) {
+
+func (l RpiLight) DimTo(brightness int) {
 	for {
 		if brightness == l.brightness {
 			fmt.Println("TargetBrigtness reached")
@@ -109,7 +110,7 @@ func (l *RpiLight) DimTo(brightness int) {
 		}
 	}
 }
-func (l *RpiLight) run() {
+func (l RpiLight) run() {
 	go func() {
 		cycle := 0
 		sleeps := time.Nanosecond / time.Duration(l.Frequency)
@@ -152,10 +153,10 @@ func (l *RpiLight) run() {
 		}
 	}()
 }
-func (l *RpiLight) RegisterChannel(c chan pb.State) {
+func (l RpiLight) RegisterChannel(c chan pb.State) {
 	l.NotifyChannels = append(l.NotifyChannels, c)
 }
-func (l *RpiLight) triggerStateChange() {
+func (l RpiLight) triggerStateChange() {
 	state := pb.State{
 		State:  l.GetState(),
 		Colors: &l.cs,

@@ -11,8 +11,10 @@ import (
 	"os"
 	"os/signal"
 	"rpilight/light"
+	"rpilight/hwlight"
 	"rpilight/server"
 	"syscall"
+	"os/user"
 	pb "rpilight/grpc"
 )
 
@@ -23,6 +25,7 @@ type Config struct {
 	GPIOGreen  int
 	GPIOBlue   int
 	GrpcPort   int
+	PWMMode	   string
 }
 
 func ReadConfig(configfile string ) Config {
@@ -39,15 +42,18 @@ func ReadConfig(configfile string ) Config {
 	return config
 }
 func main() {
+	hwlight.MyPwmTest()
+	fmt.Println("Test finished")
 	var conffile string
 	if  len(os.Args) < 2 {
 		conffile = "./config.toml"
 	}else {
 		conffile = os.Args[1]
 	}
+
 	conf := ReadConfig(conffile)
-	light.Setup(conf.GPIORed, conf.GPIOGreen, conf.GPIOBlue, int64(conf.Frequency))
-	mlight := light.GetLight()
+
+	mlight := createLight(conf)
 	fmt.Println("Light created")
 	mserver := server.TelnetSever{
 		Light: mlight}
@@ -103,4 +109,16 @@ func main() {
 		cancel()
 		os.Exit(1)
 	}()
+}
+
+func createLight(conf Config) light.ILight {
+	if conf.PWMMode == "hardware" {
+		fmt.Println("Hardware mode selected")
+		hwlight.Setup(conf.GPIORed, conf.GPIOGreen, conf.GPIOBlue, int64(conf.Frequency))
+		return hwlight.GetLight()
+	}else {
+		fmt.Println("Software mode selected")
+		light.Setup(conf.GPIORed, conf.GPIOGreen, conf.GPIOBlue, int64(conf.Frequency))
+		return light.GetLight()
+	}
 }

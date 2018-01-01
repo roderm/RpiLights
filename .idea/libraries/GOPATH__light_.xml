@@ -43,7 +43,9 @@
       <root url="file://$PROJECT_DIR$/server" />
       <root url="file://$PROJECT_DIR$/raspi-dir" />
       <root url="file://$PROJECT_DIR$/installer" />
+      <root url="file://$PROJECT_DIR$/bcm2835" />
       <root url="file://$PROJECT_DIR$/light" />
+      <root url="file://$PROJECT_DIR$/hwlight" />
     </excluded>
   </library>
 </component>

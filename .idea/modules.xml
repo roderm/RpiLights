@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/bcm2835/bcm2835.iml" filepath="$PROJECT_DIR$/bcm2835/bcm2835.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwlight/hwlight.iml" filepath="$PROJECT_DIR$/hwlight/hwlight.iml" />
       <module fileurl="file://$PROJECT_DIR$/installer/installer.iml" filepath="$PROJECT_DIR$/installer/installer.iml" />
       <module fileurl="file://$PROJECT_DIR$/light/light.iml" filepath="$PROJECT_DIR$/light/light.iml" />
       <module fileurl="file://$PROJECT_DIR$/playground.iml" filepath="$PROJECT_DIR$/playground.iml" />

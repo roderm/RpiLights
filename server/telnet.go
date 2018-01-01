@@ -4,16 +4,16 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"rpilight/light"
 	"strconv"
 	"strings"
 
 	pb "rpilight/grpc"
+	"rpilight/light"
 	"time"
 )
 
 type TelnetSever struct {
-	Light *light.RpiLight
+	Light light.ILight
 }
 
 func (t *TelnetSever) Serve(port int, ctx context.Context) (func(), error) {
